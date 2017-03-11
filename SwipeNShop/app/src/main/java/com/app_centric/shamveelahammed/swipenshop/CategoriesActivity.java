@@ -1,5 +1,6 @@
 package com.app_centric.shamveelahammed.swipenshop;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -99,6 +100,43 @@ public class CategoriesActivity extends AppCompatActivity
             public void onClick(View v)
             {
                 MainActivity.incrementLevel();
+                context = showImages.getContext();
+                //showImages.setBackgroundResource(R.drawable.electronics_laptop);
+
+                if(MainActivity.getLevel() == 1)
+                {
+                    while(column == lastColumn)
+                    {
+                        lastColumn = column;
+                        column = randomGen.nextInt(3);
+                    }
+                    lastColumn = column;
+                    subcat = MainActivity.getCategory(row) + "_"
+                            + MainActivity.getSubcategory(column, row);
+                    id = context.getResources().getIdentifier(subcat, "drawable",
+                            context.getPackageName());
+                    showImages.setBackgroundResource(id);
+                    //MainActivity.incrementLevel();
+                } //choose subcategory
+
+                if(MainActivity.getLevel() == 2)
+                {
+                    while(index == lastIndex)
+                    {
+                        lastIndex = index;
+                        index = randomGen.nextInt(3) + 1;
+                    }
+                    lastIndex = index;
+                    item = subcat + "_" + Integer.toString(index);
+                    id = context.getResources().getIdentifier(item, "drawable",
+                            context.getPackageName());
+                    showImages.setBackgroundResource(id);
+                    brand = item + "_brand";
+                    //MainActivity.incrementLevel();
+                } //choose item
+
+                if(MainActivity.getLevel() == 3)
+                    startActivity(new Intent(CategoriesActivity.this, ResultActivity.class));
             }//onClick
         });
     } //onCreate
